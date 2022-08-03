@@ -63,10 +63,18 @@ router.post("/login", async (req, res) => {
       algorithm: "HS256",
       expiresIn: "6h",
     });
-    res.json({ token: token, username: foundUser.username });
+    res.json({
+      token: token,
+      username: foundUser.username,
+      profilePicture: foundUser.profilePic,
+    });
   } catch (err) {
     res.json(err.message);
   }
+});
+
+router.get("/my-profile", async (req, res) => {
+  res.json({ message: "my profile" });
 });
 
 router.get("/login-test", isAuthenticated, function (req, res) {

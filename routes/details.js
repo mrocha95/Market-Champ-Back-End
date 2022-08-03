@@ -8,7 +8,7 @@ router.get("/", async (req, res, next) => {
     method: "GET",
     url: "/v3/reference/tickers/AAPL",
     headers: {
-      Authorization: "Bearer LZejknk5mgpQ4gRwbdbj4nU1ah_quvh8",
+      Authorization: process.env.STOCK_API,
     },
   };
 
