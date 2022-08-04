@@ -25,8 +25,8 @@ router.post("/signup", async (req, res) => {
     const newUser = await User.create({
       username: req.body.username,
       password: hashedPass,
+      profilePic: req.body.profilePic,
     });
-    res.json(newUser);
 
     const payload = {
       username: newUser.username,
@@ -36,6 +36,11 @@ router.post("/signup", async (req, res) => {
     const token = jwt.sign(payload, process.env.SECRET, {
       algorithm: "HS256",
       expiresIn: "6h",
+    });
+    res.json({
+      token: token,
+      username: newUser.username,
+      profilePic: newUser.profilePic,
     });
   } catch (err) {
     res.status(400).json(err.message);
@@ -73,8 +78,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/my-profile", async (req, res) => {
-  res.json({ message: "my profile" });
+router.get("/my-profile", isAuthenticated, async (req, res) => {
+  try {
+    const foundUser = await User.findById(req.user.id);
+    res.json(foundUser);
+  } catch (err) {
+    res.json(err.message);
+  }
+});
+
+router.get("/user-profile/:id", isAuthenticated, async (req, res) => {
+  try {
+    const foundUser = await User.findById(req.params.id);
+    res.json(foundUser);
+  } catch (err) {
+    res.json(err.message);
+  }
 });
 
 router.get("/login-test", isAuthenticated, function (req, res) {
@@ -88,5 +107,14 @@ router.post(
     res.json(req.file);
   }
 );
+
+router.delete("/delete-user/:id", isAuthenticated, async (req, res) => {
+  try {
+    const removedUser = await User.findByIdAndDelete(req.params.id);
+    res.json(removedUser);
+  } catch (err) {
+    res.json(err.message);
+  }
+});
 
 module.exports = router;
