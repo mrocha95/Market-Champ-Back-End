@@ -16,28 +16,29 @@ router.get("/:ticker/:time", async (req, res, next) => {
     if (req.params.time === "1d") {
       //day chart
       startTime = Date.now() - 8.64 * 10 ** 7;
-      range = "minute";
-    } else if (req.params.time === "1w") {
+      range = "1m";
+    } else if (req.params.time === "1wk") {
       //weekly chart
       startTime = Date.now() - 6.048 * 10 ** 8;
-      range = "hour";
-    } else if (req.params.time === "1m") {
+      range = "1h";
+    } else if (req.params.time === "1mo") {
       //monthly chart
       startTime = Date.now() - 2.628 * 10 ** 9;
-      range = "hour";
-    } else if (req.params.time === "6m") {
+      range = "1h";
+    } else if (req.params.time === "6mo") {
       //6 month chart
       startTime = Date.now() - 1.577 * 10 ** 10;
-      range = "day";
+      range = "1d";
     } else if (req.params.time === "1y") {
       //yearly chart
       startTime = Date.now() - 3.156 * 10 ** 10;
-      range = "day";
+      range = "1d";
     }
 
     const options = {
       method: "GET",
-      url: `https://api.polygon.io/v2/aggs/ticker/${req.params.ticker}/range/1/${range}/${startTime}/${endTime}`,
+      url: `https://query1.finance.yahoo.com/v8/finance/chart/${req.params.ticker}?metrics=high?&interval=${range}&range=${req.params.time}`,
+      // url: `https://api.polygon.io/v2/aggs/ticker/${req.params.ticker}/range/1/${range}/${startTime}/${endTime}`,
       headers: {
         Authorization: process.env.STOCK_API,
       },

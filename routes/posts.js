@@ -7,7 +7,6 @@ const { isAuthenticated } = require("../middleware/auth");
 router.get("/", function (req, res, next) {
   res.json({ title: "Posts" });
 });
-
 router.get("/all", async (req, res) => {
   try {
     const allPosts = await Post.find().populate("creatorId");
@@ -57,7 +56,7 @@ router.post("/create", isAuthenticated, async (req, res) => {
     });
     res.json(newPost);
   } catch (err) {
-    req.json(err.message);
+    res.json(err.message);
   }
 });
 

@@ -10,6 +10,7 @@ require("dotenv/config");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var dataRouter = require("./routes/data");
+var detailsRouter = require("./routes/details");
 var postsRouter = require("./routes/posts");
 
 var app = express();
@@ -29,6 +30,7 @@ app.use(cors());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/data", dataRouter);
+app.use("/details", detailsRouter);
 app.use("/posts", postsRouter);
 
 // catch 404 and forward to error handler
@@ -47,18 +49,18 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-// mongoose
-//   .connect("mongodb://localhost/market-champ")
-//   .then((x) =>
-//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-//   )
-//   .catch((err) => console.error("Error connecting to mongo", err));
-
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect("mongodb://localhost/market-champ")
   .then((x) =>
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   )
   .catch((err) => console.error("Error connecting to mongo", err));
+
+// mongoose
+//   .connect(process.env.MONGODB_URI)
+//   .then((x) =>
+//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+//   )
+//   .catch((err) => console.error("Error connecting to mongo", err));
 
 module.exports = app;
