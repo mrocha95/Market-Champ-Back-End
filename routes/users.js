@@ -87,7 +87,7 @@ router.get("/my-profile", isAuthenticated, async (req, res) => {
   }
 });
 
-router.get("/user-profile/:id", isAuthenticated, async (req, res) => {
+router.get("/user-profile/:id", async (req, res) => {
   try {
     const foundUser = await User.findById(req.params.id);
     res.json(foundUser);
