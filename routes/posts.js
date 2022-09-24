@@ -36,7 +36,7 @@ router.get("/my-posts", isAuthenticated, async (req, res) => {
   }
 });
 
-router.get("/user-posts/:id", isAuthenticated, async (req, res) => {
+router.get("/user-posts/:id", async (req, res) => {
   try {
     const allPosts = await Post.find({ creatorId: req.params.id });
     res.json(allPosts);
